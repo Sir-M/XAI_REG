@@ -14,7 +14,7 @@ def main():
 
     for period in ["before", "after"]:
 
-        with open("data/afrr_{}.pkl".format(period), "rb") as f:
+        with open("_data/afrr_{}.pkl".format(period), "rb") as f:
             data = pickle.load(f)
 
         for i in range(6):
@@ -37,7 +37,7 @@ def main():
 
     for period in ["before", "after"]:
 
-        with open("data/bzs_{}.pkl".format(period), "rb") as f:
+        with open("_data/bzs_{}.pkl".format(period), "rb") as f:
             data = pickle.load(f)
 
         for i in range(6):
@@ -51,7 +51,7 @@ def main():
 
     for period in ["before", "after"]:
 
-        with open("data/afrr_{}.pkl".format(period), "rb") as f:
+        with open("_data/afrr_{}.pkl".format(period), "rb") as f:
             data = pickle.load(f)
 
         for i in range(6):
@@ -64,7 +64,7 @@ def main():
 
     for period in ["before", "after"]:
 
-        with open("data/bzs_{}.pkl".format(period), "rb") as f:
+        with open("_data/bzs_{}.pkl".format(period), "rb") as f:
             data = pickle.load(f)
 
         for i in range(6):

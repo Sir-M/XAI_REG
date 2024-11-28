@@ -48,7 +48,7 @@ def main():
     target = "neg_avg_auction_price"
 
     afrr_price_data = (
-        pd.read_pickle("../_data/regelleistungnet/neg_afrr_price_data.pkl")
+        pd.read_pickle("_data/regelleistungnet/neg_afrr_price_data.pkl")
         .astype("float")
         .sort_index()["2018-10-16":"2020-07-30"]
     )
@@ -65,7 +65,7 @@ def main():
     )
 
     entsoedata = (
-        pd.read_pickle("../_data/entsoe/entsoe_DE_AT_cty_engineered_1h")
+        pd.read_pickle("_data/entsoe/entsoe_DE_AT_cty_engineered_1h")
         .astype("float")
         .tz_convert("CET")
         .sort_index()["2017-10-16":"2020-07-30"]
@@ -98,10 +98,10 @@ def main():
     data_1[target] = winsorize(data_1[target], limits=(0, 0.1))
     data_2[target] = winsorize(data_2[target], limits=(0, 0.1))
 
-    with open("data/afrr_before.pkl", "wb") as f:
+    with open("_data/afrr_before.pkl", "wb") as f:
         pickle.dump(get_window(data_1, number_of_models, percent_of_data), f)
 
-    with open("data/afrr_after.pkl", "wb") as f:
+    with open("_data/afrr_after.pkl", "wb") as f:
         pickle.dump(get_window(data_2, number_of_models, percent_of_data), f)
 
     ########### BIDDING ZONE SPLIT PREPROCESSING ###########
@@ -120,10 +120,10 @@ def main():
     data_1 = data[:"2018-09-30"]
     data_2 = data["2018-10-1":]
 
-    with open("data/bzs_before.pkl", "wb") as f:
+    with open("_data/bzs_before.pkl", "wb") as f:
         pickle.dump(get_window(data_1, number_of_models, percent_of_data), f)
 
-    with open("data/bzs_after.pkl", "wb") as f:
+    with open("_data/bzs_after.pkl", "wb") as f:
         pickle.dump(get_window(data_2, number_of_models, percent_of_data), f)
 
 

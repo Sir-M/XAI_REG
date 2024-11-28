@@ -25,8 +25,8 @@ def main():
     }
 
     for set in datasets:
-        data_1h = pd.read_pickle("../_data/entsoe/entsoe_DE_AT_{}_1h".format(set))
-        data_15min = pd.read_pickle("../_data/entsoe/entsoe_DE_AT_{}_15min".format(set))
+        data_1h = pd.read_pickle("_data/entsoe/entsoe_DE_AT_{}_1h".format(set))
+        data_15min = pd.read_pickle("_data/entsoe/entsoe_DE_AT_{}_15min".format(set))
 
         for timedelta in ["1h", "15min"]:
             exec("data = data_{}".format(timedelta))
@@ -127,7 +127,7 @@ def main():
             data.drop("holiday_at", axis=1, inplace=True)
 
             data.to_pickle(
-                "../_data/entsoe/entsoe_DE_AT_{}_engineered_{}".format(set, timedelta)
+                "_data/entsoe/entsoe_DE_AT_{}_engineered_{}".format(set, timedelta)
             )
 
     res_load = pd.DataFrame()
@@ -182,8 +182,8 @@ def main():
                 .shift(24)
             )
 
-    res_load.to_pickle("../_data/entsoe/residual_loads")
-    res_load_hydro.to_pickle("../_data/entsoe/residual_loads_hydro")
+    res_load.to_pickle("_data/entsoe/residual_loads")
+    res_load_hydro.to_pickle("_data/entsoe/residual_loads_hydro")
 
 
 if __name__ == "__main__":

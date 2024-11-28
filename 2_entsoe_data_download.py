@@ -7,7 +7,7 @@ warnings.filterwarnings("ignore")
 
 
 def main():
-    api_key = "YOUR_API_KEY"
+    api_key = "your_api_key"
 
     client = EntsoePandasClient(api_key=api_key)
 
@@ -47,7 +47,7 @@ def main():
             client.query_generation(country_code, start=start, end=end, psr_type=None)
         )
 
-        data.to_pickle("../_data/entsoe/raw_data/data_{}".format(country_code))
+        data.to_pickle("_data/entsoe/raw_data/data_{}".format(country_code))
 
     # get day ahead data in neighbor countries
     for country_code in [
@@ -94,7 +94,7 @@ def main():
             client.query_generation(country_code, start=start, end=end, psr_type=None)
         )
 
-        data.to_pickle("data/entsoe/data_{}".format(country_code))
+        data.to_pickle("_data/entsoe/data_{}".format(country_code))
 
     # day-ahead price data before BZ split
     start = pd.Timestamp("20150101", tz=tzone)
@@ -102,7 +102,7 @@ def main():
 
     country_code = "DE_AT_LU"
     client.query_day_ahead_prices(country_code, start=start, end=end).to_pickle(
-        "../_data/entsoe/raw_data/prices_{}".format(country_code)
+        "_data/entsoe/raw_data/prices_{}".format(country_code)
     )
 
     # day-ahead price data after BZ split
@@ -111,7 +111,7 @@ def main():
 
     for country_code in ["DE_LU", "AT"]:
         client.query_day_ahead_prices(country_code, start=start, end=end).to_pickle(
-            "../_data/entsoe/raw_data/prices_{}".format(country_code)
+            "_data/entsoe/raw_data/prices_{}".format(country_code)
         )
 
 

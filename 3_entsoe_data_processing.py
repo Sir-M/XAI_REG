@@ -8,16 +8,16 @@ def main():
     df = pd.DataFrame(index=pd.date_range(start, end, freq="1H", tz="EUROPE/BERLIN"))
     df = (
         df.join(
-            pd.read_pickle("../_data/entsoe/raw_data/prices_DE_AT_LU").rename(
+            pd.read_pickle("_data/entsoe/raw_data/prices_DE_AT_LU").rename(
                 "prices_DE_AT_LU"
             )
         )
         .join(
-            pd.read_pickle("../_data/entsoe/raw_data/prices_DE_LU").rename(
+            pd.read_pickle("_data/entsoe/raw_data/prices_DE_LU").rename(
                 "prices_DE_LU"
             )
         )
-        .join(pd.read_pickle("../_data/entsoe/raw_data/prices_AT").rename("prices_AT"))
+        .join(pd.read_pickle("_data/entsoe/raw_data/prices_AT").rename("prices_AT"))
     )
     df = df.tz_convert(tz="EUROPE/BERLIN").dropna(how="all")
 
@@ -34,7 +34,7 @@ def main():
             print("processing {}".format(region))
 
             data_temp = pd.read_pickle(
-                "../_data/entsoe/raw_data/data_{}".format(region)
+                "_data/entsoe/raw_data/data_{}".format(region)
             )
 
             rename_dict = {
@@ -112,9 +112,9 @@ def main():
 
             data_1h = data_1h.join(data_temp)
 
-        data_1h.join(df).to_pickle("../_data/entsoe/entsoe_DE_AT_{}_1h".format(set))
+        data_1h.join(df).to_pickle("_data/entsoe/entsoe_DE_AT_{}_1h".format(set))
         data_15min.join(df.resample("15t").interpolate(limit=3)).to_pickle(
-            "../_data/entsoe/entsoe_DE_AT_{}_15min".format(set)
+            "_data/entsoe/entsoe_DE_AT_{}_15min".format(set)
         )
 
 

@@ -1,3 +1,6 @@
+
+import warnings
+warnings.simplefilter(action='ignore', category=FutureWarning)
 import pandas as pd
 import holidays
 import glob
@@ -32,8 +35,9 @@ def main():
     )
 
     ### process 2017 data
+    """
     data_2017 = pd.read_csv(
-        "../_data/regelleistungnet/RESULT_OVERVIEW_aFRR_2017.csv",
+        "_data/regelleistungnet/RESULT_OVERVIEW_aFRR_2017.csv",
         delimiter=";",
         decimal=",",
     )
@@ -105,6 +109,7 @@ def main():
             ),
         ]
     )
+    """
 
     ### process first half of 2018
 
@@ -119,9 +124,8 @@ def main():
     ]
 
     data_2018 = pd.DataFrame(columns=cols)
-
     for file in sorted(
-        glob.glob("../_data/regelleistungnet/ERGEBNISLISTE_ANONYM_SRL_2018-*.CSV")
+        glob.glob("_data/regelleistungnet/ERGEBNISLISTE_ANONYM_SRL_2018-*.CSV")
     ):
         df_temp = pd.read_csv(
             file,
@@ -129,6 +133,8 @@ def main():
             decimal=",",
             index_col=False,
         )
+        if df_temp.empty:
+            print(f"Empty file: {file}")
         df_temp.loc[
             (df_temp["AP_ZAHLUNGSRICHTUNG"] == "Netz an Anbieter")
             & (df_temp.PRODUKTNAME.isin(["NEG_HT", "NEG_NT"])),
@@ -190,9 +196,13 @@ def main():
                     ),
                 ]
             )
-
+    print("Hi!")
+    print(data_2018.shape)
+    print(data_2018.head())
     df_pos_18 = pd.DataFrame(columns=data_2018.filter(regex="^TOTAL").columns)
+    print(df_pos_18.shape)
     df_neg_18 = pd.DataFrame(columns=data_2018.filter(regex="^TOTAL").columns)
+    print(df_neg_18.shape)
     for i in pd.date_range("2018-1-1", "2018-7-11"):
         df_temp = data_2018.loc[(data_2018.DATE_FROM <= i) & (data_2018.DATE_TO >= i)]
         df_pos_18.loc[i] = (
@@ -259,7 +269,7 @@ def main():
     ### process second half  of 2018
 
     data_2018_2 = pd.read_excel(
-        "../_data/regelleistungnet/RESULT_OVERVIEW_CAPACITY_MARKET_aFRR_2018-01-01_2018-12-31.xlsx"
+        "_data/regelleistungnet/RESULT_OVERVIEW_CAPACITY_MARKET_aFRR_2018-01-01_2018-12-31.xlsx"
     )
     data_2018_2.index = data_2018_2.DATE_FROM + data_2018_2.PRODUCT.str.slice(
         4, 6, 1
@@ -317,7 +327,7 @@ def main():
     ### process 2019
 
     data_2019 = pd.read_excel(
-        "../_data/regelleistungnet/RESULT_OVERVIEW_CAPACITY_MARKET_aFRR_2019-01-01_2019-12-31.xlsx"
+        "_data/regelleistungnet/RESULT_OVERVIEW_CAPACITY_MARKET_aFRR_2019-01-01_2019-12-31.xlsx"
     )
     data_2019.index = data_2019.DATE_FROM + data_2019.PRODUCT.str.slice(4, 6, 1).apply(
         lambda x: pd.Timedelta(x + "H")
@@ -375,7 +385,7 @@ def main():
     ### process 2020
 
     data_2020 = pd.read_excel(
-        "../_data/regelleistungnet/RESULT_OVERVIEW_CAPACITY_MARKET_aFRR_2020-01-01_2020-12-31.xlsx"
+        "_data/regelleistungnet/RESULT_OVERVIEW_CAPACITY_MARKET_aFRR_2020-01-01_2020-12-31.xlsx"
     )
     data_2020.index = data_2020.DATE_FROM + data_2020.PRODUCT.str.slice(4, 6, 1).apply(
         lambda x: pd.Timedelta(x + "H")
@@ -433,7 +443,7 @@ def main():
     ### process 2021
 
     data_2021 = pd.read_excel(
-        "../_data/regelleistungnet/RESULT_OVERVIEW_CAPACITY_MARKET_aFRR_2021-01-01_2021-12-31.xlsx"
+        "_data/regelleistungnet/RESULT_OVERVIEW_CAPACITY_MARKET_aFRR_2021-01-01_2021-12-31.xlsx"
     )
     data_2021.index = data_2021.DATE_FROM + data_2021.PRODUCT.str.slice(4, 6, 1).apply(
         lambda x: pd.Timedelta(x + "H")
@@ -489,8 +499,8 @@ def main():
     )
 
     ### save data
-    pos_afrr_price_data.to_pickle("../_data/regelleistungnet/pos_afrr_price_data.pkl")
-    neg_afrr_price_data.to_pickle("../_data/regelleistungnet/neg_afrr_price_data.pkl")
+    pos_afrr_price_data.to_pickle("_data/regelleistungnet/pos_afrr_price_data.pkl")
+    neg_afrr_price_data.to_pickle("_data/regelleistungnet/neg_afrr_price_data.pkl")
 
 
 if __name__ == "__main__":
